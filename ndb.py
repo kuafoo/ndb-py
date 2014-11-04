@@ -112,15 +112,15 @@ class Model:
     return cls(key, **kwds)
 
   # Returns the model instance for the given key if it exists, or creates a new one, initializes the properties
-  # using the provided constructor_args, and returns it.
+  # using the provided property_initializers, and returns it.
   @classmethod
-  def get_or_insert(cls, key, **constructor_args):
+  def get_or_insert(cls, key, **property_initializers):
     try:
       return cls.get_by_id(key)
     except KeyError:
       obj = cls(key)
-      for k in constructor_args:
-        v = constructor_args[k]
+      for k in property_initializers:
+        v = property_initializers[k]
         if k in cls.__dict__ and isinstance(cls.__dict__[k], Property):
           cls.__dict__[k].name = k
           obj.__dict__[k] = v
