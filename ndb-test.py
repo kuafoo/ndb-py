@@ -615,7 +615,7 @@ startTime = None
 oldArgv = sys.argv
 
 stats = {}
-for datastore in ["memory", "leveldb", "lmdb"]:
+for datastore in ["memory", "leveldb", "lmdb", "bdb"]:
   print "================================================"
   print "Testing datastore", datastore
   path = "/tmp/ndb-test-" + str(os.urandom(16).encode("hex"))

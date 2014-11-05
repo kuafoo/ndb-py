@@ -5,4 +5,5 @@ OTHER_FILES += \
     ndb_datastore_leveldb.py \
     ndb_datastore.py \
     ndb.py \
-    leveldb.py
+    leveldb.py \
+    ndb_datastore_bdb.py

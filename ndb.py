@@ -56,7 +56,7 @@ def getDatastore():
 def initDatastoreFromParams():
   global verbose
   parser = argparse.ArgumentParser(description="Initializes the ndb datatore.")
-  parser.add_argument("--datastore_type", choices=["leveldb", "lmdb", "memory"], default="leveldb", help="Which datastore implementation to use")
+  parser.add_argument("--datastore_type", choices=["leveldb", "lmdb", "bdb", "memory"], default="leveldb", help="Which datastore implementation to use")
   parser.add_argument("--datastore_path", default="datastore.db", help="Path to a directory used to store the datastore files")
   parser.add_argument("--datastore_verbose", default=False, help="Log datastore actions and errors to standard output")
   args = parser.parse_args()
@@ -67,6 +67,9 @@ def initDatastoreFromParams():
   elif args.datastore_type == "lmdb":
     import ndb_datastore_lmdb
     setDatastore(ndb_datastore_lmdb.LMDBDatastore(args.datastore_path))
+  elif args.datastore_type == "bdb":
+    import ndb_datastore_bdb
+    setDatastore(ndb_datastore_bdb.BDBDatastore(args.datastore_path))
   elif args.datastore_type == "memory":
     setDatastore(ndb_datastore.MemDatastore())
   else:
