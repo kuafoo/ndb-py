@@ -11,26 +11,35 @@ class Datastore:
   def __init__(self):
     pass
 
-  # Inserts a value with a given kind and key.
-  # The kind is analogous to an SQL table.
+  # Inserts/updates in the datastore the object with the given kind, key and value.
+  # A kind is a model name.
   def set(self, kind, key, value):
-    pass
+    raise NotImplementedError()
 
+  # Returns from the datastore the object with the given kind and key, or None if it does not exist.
   def get(self, kind, key):
-    pass
+    raise NotImplementedError()
 
+  # Deletes from thedatastore the object with the given kind and key.
+  # Does nothing if the object does not exist.
   def delete(self, kind, key):
-    pass
+    raise NotImplementedError()
 
-  # Iterates over the keys with a given kind.
+  # Returns an iterator over the keys of the objects with a given kind.
   def iter(self, kind):
-    pass
+    raise NotImplementedError()
 
+  # Returns the path where the datastore is located on disk, or None if not applicable.
   def get_path(self):
     return None
 
+  # Returns a sorted list of all the kinds in the datastore.
+  def get_kinds(self):
+    raise NotImplementedError()
+
   def close(self):
     pass
+
 
 # In-memory, dictionary-based datastore.
 class MemDatastore(Datastore):
@@ -60,6 +69,9 @@ class MemDatastore(Datastore):
     if kind not in self.data:
       self.data[kind] = {}
     return MemDatastoreIterator(self, kind)
+
+  def get_kinds(self):
+    return sorted(self.data.keys())
 
 
 class MemDatastoreIterator:

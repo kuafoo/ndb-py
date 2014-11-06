@@ -86,14 +86,14 @@ User.get_or_insert("eva@example.com",
 
 # Let's list all the users
 q = User.query()
-print "\nAll users:"
+print "\nUsers:"
 for u in q.iter():
   print u.to_dict()
 
 # Let's list all the admins
 q = User.query()
 q = q.filter(User.isAdmin == True)
-print "\nAll admins:"
+print "\nAdmins:"
 for u in q.iter():
   print u.to_dict()
 
@@ -105,3 +105,6 @@ q = q.order(User.email)
 print "\nUsers, sorted by activity and e-mail:"
 for u in q.iter():
   print u.to_dict()
+
+# List all the models in the datastore (i.e. ["Message", "User"])
+print ndb.getDatastore().get_kinds()

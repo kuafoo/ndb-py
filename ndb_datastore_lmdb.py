@@ -46,6 +46,25 @@ class LMDBDatastore(ndb_datastore.Datastore):
   def get_path(self):
     return self.path
 
+  def get_kinds(self):
+    kinds = set()
+    offset = ""
+    with self.db.begin(write=False) as txn:
+      while True:
+        try:
+          cursor = txn.cursor()
+          cursor.set_range(offset)
+          key = cursor.key()
+          if (not key):
+            raise StopIteration()
+          key = key.split(" ")[0]
+          offset = key + "."
+          kinds.add(json.loads(key.decode("hex")))
+        except:
+          cursor = None
+          break
+    return sorted(list(kinds))
+
   def close(self):
     self.db.close()
     self.db = None

@@ -595,6 +595,11 @@ def runTest():
     assert checkWeight(i, user.weight)
   print ""
 
+  print "Inspecting datastore"
+  kinds = ndb.getDatastore().get_kinds()
+  kindsRef = ["Message", "User"]
+  assert kinds == kindsRef
+
   print "Test completed."
 
 def dir_size(path):

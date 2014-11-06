@@ -47,12 +47,28 @@ class BDBDatastore(ndb_datastore.Datastore):
   def iter(self, kind):
     return BDBDatastoreIterator(self, kind)
 
+  def get_kinds(self):
+    kinds = set()
+    offset = ""
+    while True:
+      try:
+        key, _ = self.db.set_location(offset)
+        if (not key):
+          break
+        key = key.split(" ")[0]
+        offset = key + "."
+        kinds.add(json.loads(key.decode("hex")))
+      except:
+        break
+    return sorted(list(kinds))
+
   def get_path(self):
     return self.path
 
   def close(self):
     self.db.close()
     self.db = None
+
 
 class BDBDatastoreIterator:
   def __init__(self, datastore, kind):
